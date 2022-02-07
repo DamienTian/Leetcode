@@ -1,2 +1,8 @@
 
 *.exe
+*.json
+*.json
+BST/BST_LocalDebug/.vscode/c_cpp_properties.json
+*.old
+*.json
+BST/BST_LocalDebug/.vscode/c_cpp_properties.json

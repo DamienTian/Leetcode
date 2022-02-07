@@ -9,7 +9,8 @@
                 "D:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward",
                 "D:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
                 "D:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/tr1",
-                "D:/mingw64/x86_64-w64-mingw32/include"
+                "D:/mingw64/x86_64-w64-mingw32/include",
+                "D:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32"
             ],
             "defines": [
                 "_DEBUG",
