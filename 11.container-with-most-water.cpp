@@ -27,6 +27,7 @@ public:
     // }
 
     // Solution 1: Two Pointer
+    //  ref: https://www.cnblogs.com/grandyang/p/4455109.html
     int maxArea(vector<int>& height) {
         if(height.empty()){
             return 0;
