@@ -1,3 +1,9 @@
+/*
+ * Double Linked List 
+ * Author: Hao Tian
+ *  note: This implementation passed all test case in Leetcode 707
+ */
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -7,207 +13,144 @@ using namespace std;
 #ifndef DOUBLE_LINKED_LIST_H
 #define DOUBLE_LINKED_LIST_H
 
-// Author: Huahua
-// Running time: 24 ms
-class MyLinkedList
+struct Node
+{
+    Node() {}
+    Node(int v) : val(v) {}
+    Node(int v, Node *n, Node *p) : val(v), next(n), prev(p) {}
+
+    int val = -1;
+    Node *next = nullptr;
+    Node *prev = nullptr;
+};
+
+class DoubleLinkedList
 {
 public:
-    MyLinkedList() : head_(nullptr), tail_(nullptr), size_(0) {}
+    DoubleLinkedList() : head(nullptr), tail(nullptr) {}
 
-    ~MyLinkedList()
+    ~DoubleLinkedList()
     {
-        Node *node = head_;
+        Node* node = head;
         while (node)
         {
-            Node *cur = node;
+            Node* current = node;
             node = node->next;
-            delete cur;
+            delete current;
         }
-        head_ = nullptr;
-        tail_ = nullptr;
+        head = nullptr;
+        tail = nullptr;
     }
 
     int get(int index)
     {
-        if (index < 0 || index >= size_)
+        if(index < 0 || index >= size){
             return -1;
-        auto node = head_;
-        while (index--)
-            node = node->next;
-        return node->val;
+        }
+        Node *t = head;
+        while (t->next && index > 0)
+        {
+            t = t->next;
+            --index;
+        }
+        cout << t->val << endl;
+        return t->val;
     }
 
     void addAtHead(int val)
     {
-        head_ = new Node(val, head_);
-        if (size_++ == 0)
-            tail_ = head_;
+        if (!head)
+        {
+            head = new Node(val, tail, nullptr);
+            ++size;
+            return;
+        }
+        head->prev = new Node(val, head, nullptr);
+        head = head->prev;
+        ++size;
     }
 
     void addAtTail(int val)
     {
-        auto node = new Node(val);
-        if (size_++ == 0)
+        if (!head)
         {
-            head_ = tail_ = node;
+            addAtHead(val);
+        }
+        else if (!tail)
+        {
+            Node *temp = head;
+            while (temp->next)
+            {
+                temp = temp->next;
+            }
+            temp->next = new Node(val, nullptr, temp);
+            tail = temp->next;
+            ++size;
         }
         else
         {
-            tail_->next = node;
-            tail_ = tail_->next;
+            tail->next = new Node(val, nullptr, tail);
+            tail = tail->next;
+            ++size;
         }
     }
 
     void addAtIndex(int index, int val)
     {
-        if (index < 0 || index > size_)
+        if (index < 0 || index > size)
+        {
             return;
+        }
         if (index == 0)
-            return addAtHead(val);
-        if (index == size_)
-            return addAtTail(val);
-        Node dummy(0, head_);
-        Node *prev = &dummy;
-        while (index--)
-            prev = prev->next;
-        prev->next = new Node(val, prev->next);
-        ++size_;
+        {
+            addAtHead(val);
+        }
+        else if (index == size)
+        {
+            addAtTail(val);
+        }
+        else
+        {
+            Node *t = head;
+            while (t->next && index > 0)
+            {
+                t = t->next;
+                --index;
+            }
+            // Insert val at t's position
+            Node *insert = new Node(val, t, t->prev);
+            t->prev->next = insert;
+            t->prev = insert;
+            ++size;
+        }
     }
 
     void deleteAtIndex(int index)
     {
-        if (index < 0 || index >= size_)
+        if (index < 0 || index >= size)
+        {
             return;
-        Node dummy(0, head_);
-        Node *prev = &dummy;
-        for (int i = 0; i < index; ++i)
-            prev = prev->next;
-        Node *node_to_delete = prev->next;
-        prev->next = prev->next->next;
-        if (index == 0)
-            head_ = prev->next;
-        if (index == size_ - 1)
-            tail_ = prev;
-        delete node_to_delete;
-        --size_;
+        }
+
+        Node *nodeToDelete = head;
+        while (nodeToDelete->next && index > 0)
+        {
+            nodeToDelete = nodeToDelete->next;
+            --index;
+        }
+        // After the while loop, found the node to delete
+        Node *prevNode = nodeToDelete->prev;
+        Node *nextNode = nodeToDelete->next;
+        prevNode ? prevNode->next = nextNode : head = nodeToDelete->next;
+        nextNode ? nextNode->prev = prevNode : tail = nodeToDelete->prev;
+        delete nodeToDelete;
+        --size;
     }
 
 private:
-    struct Node
-    {
-        int val;
-        Node *next;
-        Node(int _val) : Node(_val, nullptr) {}
-        Node(int _val, Node *_next) : val(_val), next(_next) {}
-    };
-    Node *head_;
-    Node *tail_;
-    int size_;
+    Node *head, *tail;
+    int size = 0;
 };
 
-// struct Node
-// {
-//     Node() {}
-//     Node(int v) : val(v) {}
-//     Node(int v, Node *n, Node *p) : val(v), next(n), prev(p) {}
-//     // ~Node()
-//     // {
-//     //     delete next;
-//     //     delete prev;
-//     // }
-
-//     int val = -1;
-//     Node *next = nullptr;
-//     Node *prev = nullptr;
-// };
-
-// class MyLinkedList
-// {
-// public:
-//     MyLinkedList() : head(nullptr), tail(nullptr) {}
-
-//     ~MyLinkedList()
-//     {
-//         current = head;
-//         while (current)
-//         {
-//             delete current;
-//             current = head->next;
-//         }
-//     }
-
-//     int get(int index)
-//     {
-//         Node *t = head;
-//         while (t && index >= 0)
-//         {
-//             t = t->next;
-//             --index;
-//         }
-
-//         return !t ? -1 : t->val;
-//     }
-
-//     void addAtHead(int val)
-//     {
-//         if (head == nullptr)
-//         {
-//             head->val = val;
-//             tail = new Node();
-//             head->next = tail;
-//             return;
-//         }
-//         current = new Node(val, head, nullptr);
-//         head = current;
-//     }
-
-//     void addAtTail(int val)
-//     {
-//         if (head == nullptr)
-//         {
-//             addAtHead(val);
-//         }
-//         current = new Node(val, nullptr, tail);
-//         tail = current;
-//     }
-
-//     void addAtIndex(int index, int val)
-//     {
-//         Node *t = head;
-//         while (t && index >= 0)
-//         {
-//             t = t->next;
-//             --index;
-//         }
-//         if (!t)
-//         { // add to tail
-//             addAtTail(val);
-//         }
-//         else if (index == 0)
-//         {
-//             current = new Node(val, t, t->prev);
-//         }
-//     }
-
-//     void deleteAtIndex(int index)
-//     {
-//         Node *t = head;
-//         while (t && index >= 0)
-//         {
-//             t = t->next;
-//             --index;
-//         }
-//         if (!t)
-//             return;
-//         else if(index == 0){
-//             t->prev = t->next;
-//             current = t;
-//             delete current;
-//         }
-//     }
-
-// public:
-//     Node *head, *tail, *current;
-// };
 
 #endif

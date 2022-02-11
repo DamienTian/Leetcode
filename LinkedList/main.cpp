@@ -2,19 +2,9 @@
 
 int main()
 {
-    MyLinkedList myLinkedList;
-    myLinkedList.addAtHead(1);
-
+    DoubleLinkedList myLinkedList;
+    myLinkedList.addAtTail(1);
     myLinkedList.addAtTail(3);
-
-    myLinkedList.addAtIndex(1, 2); // linked list becomes 1->2->3
-
-    cout << myLinkedList.get(1) << endl; // return 2
-
-    myLinkedList.deleteAtIndex(1); // now the linked list is 1->3
-
-    cout << myLinkedList.get(1) << endl;
-
-    cout << "ffff..." << endl;
+    myLinkedList.get(1);           // return 2
     return 0;
 }
