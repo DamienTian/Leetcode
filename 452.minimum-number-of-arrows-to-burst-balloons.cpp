@@ -35,7 +35,7 @@ public:
 // public:
 //     // Solution: Greedy
 //     //  ref: http://zxi.mytechroad.com/blog/geometry/leetcode-452-minimum-number-of-arrows-to-burst-balloons/
-//     //  note: This solution will cause Time Exceed Limit, but the algorithm is correct
+//     //  note: This solution will cause Time Exceed Limit, but the algorithm is correct (might by lambda cause this issue)
 //     int findMinArrowShots(vector<vector<int>> &points)
 //     {
 //         if (points.empty())
