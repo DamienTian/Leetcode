@@ -36,5 +36,6 @@ private:
         }
     }
 };
+
 // @lc code=end
 

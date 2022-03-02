@@ -23,13 +23,13 @@ public:
 
     // Solution 2: Divide and Conquer
     //  ref: https://grandyang.com/leetcode/53/
-    int maxSubArray(vector<int> &nums)
-    {
-        if(nums.empty()){
-            return 0;
-        }
-        return dc(nums, 0, nums.size() - 1);
-    }
+    // int maxSubArray(vector<int> &nums)
+    // {
+    //     if(nums.empty()){
+    //         return 0;
+    //     }
+    //     return dc(nums, 0, nums.size() - 1);
+    // }
 
     // IDEA: split the array to half, find the max value of sum in each subarray,
     //       this problem also involve binary search
@@ -61,6 +61,19 @@ public:
 
         // return the max result among the left, right, and current max
         return max(currentMax, max(leftMax, rightMax));
+    }
+
+    // Solution 3: DP
+    int maxSubArray(vector<int> &nums)
+    {
+        vector<int> dp(nums.size(), 0);
+        dp[0] = nums[0];
+        int result = dp[0];
+        for(int i = 1; i < nums.size(); ++i){
+            dp[i] = max(dp[i-1] + nums[i], nums[i]);
+            result = max(dp[i], result);
+        }
+        return result;
     }
 };
 // @lc code=end
