@@ -32,7 +32,7 @@ public:
     // }
 
     // IDEA: split the array to half, find the max value of sum in each subarray,
-    //       this problem also involve binary search
+    //       this solution also involve binary search
     int dc(const vector<int> &nums, int left, int right){
         if(left >= right){
             return nums[left];

@@ -71,10 +71,12 @@ public:
     ListNode *reverseBetween(ListNode *head, int left, int right)
     {
         ListNode *dummy = new ListNode(-1);
+        // prev: the node before reverse range
         ListNode *prev = dummy;
         dummy->next = head;
         for (int i = 0; i < left - 1; ++i)
             prev = prev->next;
+        // cursor: the first element of reverse range, will be moved to the back
         ListNode *cursor = prev->next;
         for (int i = left; i < right; ++i)
         {
