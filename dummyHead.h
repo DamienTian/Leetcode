@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <map>
 #include <set>
 #include <stack>
 #include <queue>
@@ -13,6 +14,8 @@
 #include <list>
 #include <algorithm>
 #include <cmath>
+#include <numeric>
+#include <limits>
 
 using namespace std;
 
