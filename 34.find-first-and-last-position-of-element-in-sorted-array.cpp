@@ -29,7 +29,7 @@ public:
         if(start == -1)
             return {-1, -1};
 
-        // Find end (find the first element that is greater than target)
+        // Find end (find the first element that is greater than or equal to target)
         left = 0;
         right = nums.size();
         while(left < right){
