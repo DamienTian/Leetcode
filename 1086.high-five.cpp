@@ -9,6 +9,7 @@
 
 class Solution {
 public:
+    // Solution 1: Hashmap + max heap
     vector<vector<int>> highFive(vector<vector<int>>& items) {
         map<int, priority_queue<int>> records;
         for(const vector<int>& i : items){
