@@ -18,6 +18,7 @@
 #include <cmath>
 #include <numeric>
 #include <limits>
+#include <functional>
 
 // C
 #include <stdio.h>      /* printf, scanf, puts, NULL */
