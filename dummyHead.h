@@ -2,12 +2,14 @@
 #ifndef DUMMYHEAD_H_ 
 #define DUMMYHEAD_H_ 
 
+// C++
 #include <iostream>
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <map>
 #include <set>
+#include <unordered_set>
 #include <stack>
 #include <queue>
 #include <deque>
@@ -16,6 +18,11 @@
 #include <cmath>
 #include <numeric>
 #include <limits>
+
+// C
+#include <stdio.h>      /* printf, scanf, puts, NULL */
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 
 using namespace std;
 

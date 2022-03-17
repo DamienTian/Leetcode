@@ -37,6 +37,9 @@ private:
     int current;
 };
 
+// Solution 2: two stacks
+//  ref: https://www.youtube.com/watch?v=-a3np7BO2zY
+
 /**
  * Your BrowserHistory object will be instantiated and called as such:
  * BrowserHistory* obj = new BrowserHistory(homepage);
