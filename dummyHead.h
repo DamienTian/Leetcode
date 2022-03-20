@@ -21,9 +21,9 @@
 #include <functional>
 
 // C
-#include <stdio.h>      /* printf, scanf, puts, NULL */
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include <ctype.h>      /* tolower */
 
 using namespace std;
 
