@@ -5,26 +5,26 @@
  */
 
 // @lc code=start
-/*
-// Definition for a Node.
-class Node {
-public:
-    int val;
-    vector<Node*> neighbors;
-    Node() {
-        val = 0;
-        neighbors = vector<Node*>();
-    }
-    Node(int _val) {
-        val = _val;
-        neighbors = vector<Node*>();
-    }
-    Node(int _val, vector<Node*> _neighbors) {
-        val = _val;
-        neighbors = _neighbors;
-    }
-};
-*/
+// #include "dummyHead.h"
+// // Definition for a Node.
+// class Node {
+// public:
+//     int val;
+//     vector<Node*> neighbors;
+//     Node() {
+//         val = 0;
+//         neighbors = vector<Node*>();
+//     }
+//     Node(int _val) {
+//         val = _val;
+//         neighbors = vector<Node*>();
+//     }
+//     Node(int _val, vector<Node*> _neighbors) {
+//         val = _val;
+//         neighbors = _neighbors;
+//     }
+// };
+
 
 // ref: https://zxi.mytechroad.com/blog/graph/leetcode-133-clone-graph/
 //  key: use queue to do search, use map to store the relationship between origin and cloned
@@ -62,9 +62,7 @@ public:
                     relationship[n] = new Node(n->val);
                 }
                 relationship[current]->neighbors.push_back(relationship[n]);
-                //if(searched.find(n) == searched.end()){
                 nextSearch.push(n);
-                //}
             }
 
             searched.insert(current);
