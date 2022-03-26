@@ -33,6 +33,7 @@ private:
         // find all possible string for the pattern char
         for(int i = si; i < str.size(); ++i){
             string t = str.substr(si, i - si + 1);
+            // if find the match, continue search for remaining
             if(m.count(p) && m[p] == t){
                 if(helper(pattern, str, pi + 1, i + 1))
                     return true;
