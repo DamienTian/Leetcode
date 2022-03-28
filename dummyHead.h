@@ -27,4 +27,13 @@
 
 using namespace std;
 
+// print vector<int>
+void printVectorInt(vector<int> v){
+    cout << "[";
+    for(int i : v){
+        cout << i << " ";
+    }
+    cout << "]" << endl;
+}
+
 #endif

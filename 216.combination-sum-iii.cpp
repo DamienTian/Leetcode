@@ -5,6 +5,7 @@
  */
 
 // @lc code=start
+
 class Solution
 {
 public:
@@ -34,4 +35,5 @@ public:
         return result;
     }
 };
+
 // @lc code=end
