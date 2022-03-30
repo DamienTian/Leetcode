@@ -36,4 +36,23 @@ void printVectorInt(vector<int> v){
     cout << "]" << endl;
 }
 
+// print matrix
+void printMatrix2DInt(vector<vector<int>> m){
+    cout << "[";
+    for(int i = 0; i < m.size(); ++i){
+        cout << "[";
+        for(int j = 0; j < m[i].size(); ++j){
+            if(j == m[i].size() - 1)
+                cout << m[i][j];
+            else
+                cout << m[i][j] << ", ";
+        }
+        if(i == m.size() - 1)
+            cout << "]";
+        else
+            cout << "]" << endl;
+    }
+    cout << "]" << endl;
+}
+
 #endif
