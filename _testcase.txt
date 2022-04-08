@@ -1,3 +1,2 @@
-["I","love","leetcode"]
-["I","love","onepiece"]
-[["manga","hunterXhunter"],["platform","anime"],["leetcode","platform"],["anime","manga"]]
+2
+[[1,0],[0,1]]
