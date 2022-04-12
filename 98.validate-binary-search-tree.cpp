@@ -17,10 +17,11 @@
  * };
  */
 
-// ref: https://zxi.mytechroad.com/blog/tree/leetcode-98-validate-binary-search-tree/
+
 class Solution {
 public:
     // Solution 1: recursion
+    //  ref: https://zxi.mytechroad.com/blog/tree/leetcode-98-validate-binary-search-tree/
     // bool isValidBST(TreeNode* root) {
     //     return recursion(root, nullptr, nullptr);
     // }
