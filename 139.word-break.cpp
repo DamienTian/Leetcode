@@ -28,25 +28,71 @@ public:
     //     return false;
     // }
 
-    // Solution: DFS Recursive with memoization
+    // Solution 1: DFS Recursive with memoization
     //  ref: http://zxi.mytechroad.com/blog/leetcode/leetcode-139-word-break/
+    // bool wordBreak(string s, vector<string> &wordDict)
+    // {
+    //     unordered_set<string> dict(wordDict.cbegin(), wordDict.cend());
+    //     return wordBreak(s, dict);
+    // }
+
+    // Solution 2: DP
+    //  ref: https://www.cnblogs.com/grandyang/p/4257740.html
+    // bool wordBreak(string s, vector<string> &wordDict)
+    // {   
+    //     unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
+    //     vector<bool> dp(s.size() + 1, false);
+    //     dp[0] = true;
+    //     for(int i = 0; i < dp.size(); ++i){
+    //         for(int j = 0; j < i; ++j){
+    //             if(dp[j] && wordSet.count(s.substr(j, i - j))){
+    //                 dp[i] = true;
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return dp.back();
+    // }
+
+    // Solution 3: BFS
+    //  ref: https://www.cnblogs.com/grandyang/p/4257740.html
+    //  note: BFS the first valid word, push next start search index to queue, then BFS again
     bool wordBreak(string s, vector<string> &wordDict)
     {
-        unordered_set<string> dict(wordDict.cbegin(), wordDict.cend());
-        return wordBreak(s, dict);
+        unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
+        vector<bool> visited(s.size(), false);
+        queue<int> q{{0}};
+        while(!q.empty()){
+            int start = q.front();
+            q.pop();
+            if(!visited[start]){
+                for(int i = start + 1; i <= s.size(); ++i){
+                    if(wordSet.count(s.substr(start, i - start))){
+                        q.push(i);
+                        if(i == s.size())
+                            return true;
+                    }
+                }
+                visited[start] = true;
+            }
+        }
+        return false;
     }
 
 private:
-    bool wordBreak(string s, const unordered_set<string> &dict){
-        if(mem.count(s))
+    // helper function for DFS
+    bool wordBreak(string s, const unordered_set<string> &dict)
+    {
+        if (mem.count(s))
             return mem[s];
-        if(dict.count(s))
+        if (dict.count(s))
             return mem[s] = true;
         // break string and test
-        for(int i = 1; i < s.length(); ++i){
+        for (int i = 1; i < s.length(); ++i)
+        {
             const string left = s.substr(0, i);
             const string right = s.substr(i);
-            if(dict.count(left) && wordBreak(right, dict))
+            if (dict.count(left) && wordBreak(right, dict))
                 return mem[s] = true;
         }
         return mem[s] = false;

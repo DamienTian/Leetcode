@@ -59,7 +59,7 @@ private:
             //cout << root->val <<endl;
             successor = root;
             //return;   // do not return here! Previous will stop update if return,
-                        // and all the successor will has previous of the leftest node
+                        // and all the successor will has previous becomes the leftest node
         }
         previous = root;
         inorder(root->right, p);

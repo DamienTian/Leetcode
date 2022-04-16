@@ -14,36 +14,36 @@ public:
     // Solution 1: BFS
     //  ref: https://www.cnblogs.com/grandyang/p/4484571.html
     //  note: check ref for term "indegree"
-    // bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-    //    unordered_map<int, unordered_set<int>> graph;
-    //    // indegree of vertex indicates the # of edge point to the vertex
-    //    vector<int> inDegree(numCourses, 0);
-    //     for(auto pre: prerequisites){
-    //        graph[pre[1]].insert(pre[0]);
-    //        inDegree[pre[0]]++;
-    //     }
-    //     // bfs all the node that indegree is 0 (no prerequest)
-    //     queue<int> q;
-    //     for(int i = 0; i < numCourses; ++i){
-    //         if(inDegree[i] == 0)
-    //             q.push(i);
-    //     }
-    //     while(!q.empty()){
-    //         int c = q.front();
-    //         q.pop();
-    //         for(int cc : graph[c]){
-    //             --inDegree[cc];
-    //             if(inDegree[cc] == 0)
-    //                 q.push(cc);
-    //         }
-    //     }
-    //     // check loop
-    //     for(int i : inDegree){
-    //         if(i != 0)
-    //             return false;
-    //     }
-    //     return true;
-    // }
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+       unordered_map<int, unordered_set<int>> graph;
+       // indegree of vertex indicates the # of edge point to the vertex
+       vector<int> inDegree(numCourses, 0);
+        for(auto pre: prerequisites){
+           graph[pre[1]].insert(pre[0]);
+           inDegree[pre[0]]++;
+        }
+        // bfs all the node that indegree is 0 (no prerequest)
+        queue<int> q;
+        for(int i = 0; i < numCourses; ++i){
+            if(inDegree[i] == 0)
+                q.push(i);
+        }
+        while(!q.empty()){
+            int c = q.front();
+            q.pop();
+            for(int cc : graph[c]){
+                --inDegree[cc];
+                if(inDegree[cc] == 0)
+                    q.push(cc);
+            }
+        }
+        // check loop
+        for(int i : inDegree){
+            if(i != 0)
+                return false;
+        }
+        return true;
+    }
 
     // Solution 2: DFS
     //  ref1: https://www.cnblogs.com/grandyang/p/4484571.html (code)
