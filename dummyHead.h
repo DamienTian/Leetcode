@@ -19,6 +19,7 @@
 #include <numeric>
 #include <limits>
 #include <functional>
+#include <fstream>
 
 // C
 #include <stdlib.h>     /* srand, rand */
@@ -53,6 +54,22 @@ void printMatrix2DInt(vector<vector<int>> m){
             cout << "]" << endl;
     }
     cout << "]" << endl;
+}
+
+template<class T>
+void printList(std::list<T> list){
+    std::cout << '[';
+    for(auto t : list)
+        std::cout << t << ',';
+    std::cout << ']' << std::endl;
+}
+
+template<class T>
+void printVector(std::vector<T> v){
+    std::cout << '[';
+    for(auto t : v)
+        std::cout << t << ',';
+    std::cout << ']' << std::endl;
 }
 
 #endif
