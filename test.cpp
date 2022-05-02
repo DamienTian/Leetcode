@@ -1,8 +1,10 @@
 #include "dummyHead.h"
-    int main()
-    {
-        map<int, int> m {{1,2}, {3,4}, {5,6}};
-        auto it = m.lower_bound(2);
-        cout << it->first << it->second << endl;
-        return 0;
-    }
+#include "3.longest-substring-without-repeating-characters.cpp"
+
+int main()
+{
+    Solution s;
+    cout << s.lengthOfLongestSubstring("pwwkew") << endl;
+
+    return 0;
+}
