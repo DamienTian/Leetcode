@@ -11,20 +11,36 @@ class Solution {
 public:
     // Solution 1: Binary Search + Hashset
     //  ref: https://leetcode.com/problems/longest-repeating-substring/solution/
+    // int longestRepeatingSubstring(string s) {
+    //     int n = s.length();
+    //     int l = 1, r = n;
+    //     // loop search half of the string
+    //     //  note: l r m has nothing to do with string index
+    //     while(l <= r){
+    //         int m = l + (r - l) / 2;
+    //         cout << "l = " << l << "    r = " << r << "    m = " << m << endl;
+    //         if(search(s, m) != -1)
+    //             l = m + 1;
+    //         else
+    //             r = m - 1;
+    //     }
+    //     return l - 1;
+    // }
+
+    // Solution 2: DP
     int longestRepeatingSubstring(string s) {
-        int n = s.length();
-        int l = 1, r = n;
-        // loop search half of the string
-        //  note: l r m has nothing to do with string index
-        while(l <= r){
-            int m = l + (r - l) / 2;
-            cout << "l = " << l << "    r = " << r << "    m = " << m << endl;
-            if(search(s, m) != -1)
-                l = m + 1;
-            else
-                r = m - 1;
+        size_t n = s.size();
+        vector<vector<int>> dp(n+1, vector<int>(n+1));
+        int result = 0;
+        for(int i = 1; i <= n; ++i){
+            for(int j = 1; j <= n; ++j){
+                if(s[i-1] == s[j-1] && i != j){
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                    result = max(result, dp[i][j]);
+                }
+            }    
         }
-        return l - 1;
+        return result;
     }
 
 private:
