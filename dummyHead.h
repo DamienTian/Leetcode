@@ -20,6 +20,9 @@
 #include <limits>
 #include <functional>
 #include <fstream>
+#include <ostream>
+#include <istream>
+#include <sstream>      // std::ostringstream
 
 // C
 #include <stdlib.h>     /* srand, rand */

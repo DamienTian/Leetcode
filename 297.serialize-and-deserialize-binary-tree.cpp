@@ -15,9 +15,8 @@
 // };
 // #include "dummyHead.h"
 
-// Solution: BFS (Iteration) + Two Pointers (in deserialize())
-//  note: take look at grandyang's recursion version: https://www.cnblogs.com/grandyang/p/4913869.html
-class Codec
+// Solution 1: BFS (Iteration) + Two Pointers (in deserialize())
+class OldCodec
 {
 public:
     // Encodes a tree to a single string.
@@ -32,7 +31,6 @@ public:
             int currentLevelSize = q.size();
             bool nextLevelAllNull = true;
             string currentLevel = "";
-
             // serialize by each level
             for (int i = 0; i < currentLevelSize; ++i)
             {
@@ -60,7 +58,6 @@ public:
     {
         if (data.empty())
             return nullptr;
-
         // vector to store TreeNode*, it will order like data
         vector<TreeNode *> result(data.length());
         size_t found = data.find_first_of(",");
@@ -115,6 +112,52 @@ public:
         return result[0];
     }
 };
+
+// Solution 2: BFS recursion
+//  ref: https://www.cnblogs.com/grandyang/p/4913869.html
+class Codec
+{
+public:
+    // Encodes a tree to a single string.
+    string serialize(TreeNode *root)
+    {
+        ostringstream out;
+        serialize(root, out);
+        return out.str();
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode *deserialize(string data)
+    {
+        istringstream in(data);
+        return deserialize(in);
+    }
+
+private:
+    void serialize(TreeNode *root, ostringstream& out){
+        if(root){
+            out << root->val << ' ';
+            serialize(root->left, out);
+            serialize(root->right, out);
+        }
+        else{
+            out << "# ";
+        }
+    }
+
+    TreeNode* deserialize(istringstream &in){
+        string val;
+        in >> val;
+        if(val == "#")
+            return nullptr;
+        TreeNode* root = new TreeNode(stoi(val));
+        root->left = deserialize(in);
+        root->right = deserialize(in);
+        return root;
+    }
+};
+
+// TODO: BFS iteration with stringstream
 
 // Your Codec object will be instantiated and called as such:
 // Codec ser, deser;

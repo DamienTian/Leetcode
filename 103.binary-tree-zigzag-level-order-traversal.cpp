@@ -5,6 +5,7 @@
  */
 
 // @lc code=start
+// Definition for a binary tree node.
 // struct TreeNode
 // {
 //     int val;
@@ -16,53 +17,45 @@
 // };
 // #include "dummyHead.h"
 
-class Solution {
+// Review: 1
+
+class Solution
+{
 public:
-    // Solution 1: BFS (Iteration)
-    //  note: take look at grandyang's solution 2 - https://www.cnblogs.com/grandyang/p/4297009.html (similar, but it allocates space first, and put at correct index)
-    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        if(!root)
+    // Solution 1: BFS iteration
+    //  ref: https://www.cnblogs.com/grandyang/p/4297009.html
+    vector<vector<int>> zigzagLevelOrder(TreeNode *root)
+    {
+        if (!root)
             return {};
+        queue<TreeNode *> q{{root}};
         vector<vector<int>> result;
-        queue<TreeNode*> q {{root}};
-        while(!q.empty()){
-            vector<int> currentLevel;
-            int currentLevelSize = q.size();
-
-            // use a stack to store right order
-            stack<TreeNode*> s;
-
-            for(int i = 0; i < currentLevelSize; ++i){
-                TreeNode* currentNode = q.front();
+        // zigzag direction
+        bool toRight = true;
+        while (!q.empty())
+        {   
+            // allocate the space of a level
+            int size = q.size();
+            vector<int> currentLevel(size);
+            for (int i = 0; i < size; ++i)
+            {
+                TreeNode *t = q.front(); 
                 q.pop();
-                currentLevel.push_back(currentNode->val);
-
-                // make next level zigzag shape depends on the current search level
-                if(result.size() % 2 == 0){
-                    if(currentNode->left) s.push(currentNode->left);
-                    if(currentNode->right) s.push(currentNode->right);
-                }
-                else{
-                    if(currentNode->right) s.push(currentNode->right);
-                    if(currentNode->left) s.push(currentNode->left);
-                }
+                // calculate index of insert position base on travel direction
+                int index = toRight ? i : size - 1 - i;
+                currentLevel[index] = t->val;
+                if(t->left)
+                    q.push(t->left);
+                if(t->right)
+                    q.push(t->right);
             }
-
-            // push back to queue in right searching order
-            if(q.empty() && !s.empty()){
-                while(!s.empty()){
-                    q.push(s.top());
-                    s.pop();
-                }
-            }
-            
+            toRight = !toRight;
             result.push_back(currentLevel);
         }
-
         return result;
     }
+
+    // TODO: Solution 2: BFS iterative 
+    //  note: follow the same pattern of #102 solution 2
 };
-
-// [0,2,4,1,null,3,-1,5,1,null,6,null,8]
 // @lc code=end
-

@@ -6,95 +6,79 @@
 
 // @lc code=start
 
-// IDEA: DFS / BFS
-//  ref: 
-//      DFS: https://www.youtube.com/watch?v=XSmgFKe-XYU&t=9s
-//      BFS: https://www.cnblogs.com/grandyang/p/4402656.html 
-//  time: O(size of the grid) = O(length * width)
-class Solution {
+// #include "dummyHead.h"
+
+// Review: 1
+
+class Solution
+{
 public:
-    // DFS version
-    // int numIslands(vector<vector<char>>& grid) {
+    // Solution 1: BFS
+    // int numIslands(vector<vector<char>> &grid)
+    // {
+    //     if (grid.empty() || grid[0].empty())
+    //         return 0;
+    //     int m = grid.size(), n = grid[0].size();
+    //     vector<vector<int>> visited(m, vector<int>(n, 0));
     //     int result = 0;
-    //     if(grid.empty()){
-    //         return result;
-    //     } 
-    //     size_t length = grid.size();
-    //     size_t width = grid[0].size();
-    //     for(size_t l = 0; l < length; ++l){
-    //         for(size_t w = 0; w < width; ++w){
-    //             result += grid[l][w] - '0';
-    //             dfs(grid, width, length, w, l);
+    //     for (int i = 0; i < m; ++i)
+    //     {
+    //         for (int j = 0; j < n; ++j)
+    //         {
+    //             if (grid[i][j] == '0' || visited[i][j] == 1)
+    //                 continue;
+    //             result++;
+    //             queue<int> q{{i * n + j}};
+    //             visited[i][j] = 1;
+    //             while (!q.empty())
+    //             {
+    //                 int pos = q.front();
+    //                 q.pop();
+    //                 int y = pos / n;
+    //                 int x = pos % n;
+    //                 for (const auto &d : dirs)
+    //                 {
+    //                     int nx = x + d[0];
+    //                     int ny = y + d[1];
+    //                     if (nx < 0 || ny < 0 || nx >= n || ny >= m ||
+    //                         grid[ny][nx] == '0' || visited[ny][nx] == 1)
+    //                         continue;
+    //                     visited[ny][nx] = 1;
+    //                     q.push(ny * n + nx);
+    //                 }
+    //             }
     //         }
     //     }
     //     return result;
     // }
 
-    // BFS version (no optimization)
-    int numIslands(vector<vector<char>>& grid) {
+    // Solution 2: DFS
+    int numIslands(vector<vector<char>> &grid)
+    {
+        if (grid.empty() || grid[0].empty())
+            return 0;
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
         int result = 0;
-        if(grid.empty()){
-            return result;
-        } 
-        size_t length = grid.size();
-        size_t width = grid[0].size();
-
-        // Check if the place has been visited
-        vector<vector<bool>> visited(length, vector<bool>(width, false));
-        // Use Queue to stores next grid to search (BFS)
-        queue<pair<int, int>> bfsQueue;
-        
-        for(size_t l = 0; l < length; ++l){
-            for(size_t w = 0; w < width; ++w){
-                // Find a '1', search all surround grids
-                if(grid[l][w] == '1' && !visited[l][w]){
-                    bfsQueue.push(make_pair(l, w));
-                    ++result;
-                    while(!bfsQueue.empty()){
-                        auto current = bfsQueue.front();
-                        bfsQueue.pop();
-
-                        int y = current.first;
-                        int x = current.second;
-                        visited[y][x] = true;
-
-                        // Search four directions
-                        pair<int, int> left (y, x - 1);
-                        pair<int, int> right (y, x + 1);
-                        pair<int, int> up (y - 1, x);
-                        pair<int, int> down (y + 1, x);
-                        vector<pair<int, int>> directions {left, right, up, down};
-                        for(auto d : directions){
-                            if(d.first < 0 || d.second < 0 || d.first >= length || d.second >= width || 
-                               grid[d.first][d.second] == '0' || visited[d.first][d.second]){
-                                continue;
-                            }
-                            // Marked grid is found as visited
-                            visited[d.first][d.second] = true;
-                            // Push it into queue to find it adjancent in next round of while loop
-                            bfsQueue.push(make_pair(d.first, d.second));
-                        }
-                    }
+        for(int i = 0; i < m; ++i){
+            for(int j = 0; j < n; ++j){
+                if(grid[i][j] == '1' && !visited[i][j]){
+                    dfs(grid, visited, result, i, j);
+                    result++;
                 }
             }
         }
         return result;
     }
-
 private:
-    void dfs(vector<vector<char>>& grid, int width, int length ,int x, int y){
-        // Out of boundary and '0' check (bask case)
-        if(x < 0 || y < 0 || x >= width || y >= length || grid[y][x] == '0'){
+    vector<vector<int>> dirs{{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+
+    void dfs(const vector<vector<char>> &grid, vector<vector<bool>> &visited, int& result, int i, int j){
+        if(i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size() || grid[i][j] == '0' || visited[i][j])
             return;
-        }
-        // If we find the land '1', change it to '0'
-        grid[y][x] = '0';
-        // Search all adjancent sides
-        dfs(grid, width, length, x - 1, y);
-        dfs(grid, width, length, x + 1, y);
-        dfs(grid, width, length, x, y - 1);
-        dfs(grid, width, length, x, y + 1);
+        visited[i][j] = true;
+        for(const auto& d : dirs)
+            dfs(grid, visited, result, i + d[0], j + d[1]);
     }
 };
 // @lc code=end
-
