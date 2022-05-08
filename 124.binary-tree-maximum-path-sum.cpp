@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode id=543 lang=cpp
+ * @lc app=leetcode id=124 lang=cpp
  *
- * [543] Diameter of Binary Tree
+ * [124] Binary Tree Maximum Path Sum
  */
 
 // @lc code=start
@@ -15,33 +15,31 @@
 //     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 //     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 // };
-
 // #include "dummyHead.h"
-
-// Review 1
 
 class Solution
 {
 public:
     // Solution 1: DFS
-    //  ref: http://zxi.mytechroad.com/blog/tree/leetcode-543-diameter-of-binary-tree/
-    int diameterOfBinaryTree(TreeNode *root)
+    //  ref: http://zxi.mytechroad.com/blog/tree/leetcode-124-binary-tree-maximum-path-sum/
+    //  note: same as #543
+    int maxPathSum(TreeNode *root)
     {
-        result_ = 0;
+        result = INT_MIN;
         dfs(root);
-        return result_;
+        return result;
     }
 
 private:
-    int result_;
+    int result;
     int dfs(TreeNode *root)
     {
         if (!root)
-            return -1;
-        int left = dfs(root->left) + 1;
-        int right = dfs(root->right) + 1;
-        result_ = max(result_, left + right);
-        return max(left, right);
+            return 0;
+        int left = max(0, dfs(root->left));
+        int right = max(0, dfs(root->right));
+        result = max(result, left + right + root->val);
+        return max(left, right) + root->val;
     }
 };
 // @lc code=end

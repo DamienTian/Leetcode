@@ -5,44 +5,36 @@
  */
 
 // @lc code=start
-//#include "dummyHead.h"
+// Definition for a binary tree node.
+// struct TreeNode
+// {
+//     int val;
+//     TreeNode *left;
+//     TreeNode *right;
+//     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+//     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+//     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+// };
+// #include "dummyHead.h"
+
+// Review 1
 
 class Solution
 {
 public:
-    // Solution 1: DFS recursion
-    //  ref: https://www.cnblogs.com/grandyang/p/4790476.html
     TreeNode *invertTree(TreeNode *root)
     {
-        if (!root)
-            return nullptr;
-        // TreeNode *tmp = root->left;
-        // root->left = root->right;
-        // root->right = tmp;
-        swap(root->left, root->right);
-        invertTree(root->left);
-        invertTree(root->right);
+        dfs(root);
         return root;
     }
 
-    // Solution 2: BFS iteration
-    //  ref: https://www.cnblogs.com/grandyang/p/4572877.html
-    TreeNode* invertTree(TreeNode* root) {
+private:
+    void dfs(TreeNode *root){
         if(!root)
-            return nullptr;
-        queue<TreeNode*> q {{root}};
-        while(!q.empty()){
-            TreeNode* curr = q.front();
-            q.pop();
-            if(curr->left || curr->right){
-                swap(curr->left, curr->right);
-                if(curr->left) q.push(curr->left);
-                if(curr->right) q.push(curr->right);
-            }
-        }
-        
-        return root;
+            return;
+        swap(root->left, root->right);
+        dfs(root->left);
+        dfs(root->right);
     }
 };
-
 // @lc code=end

@@ -5,40 +5,37 @@
  */
 
 // @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
+// Definition for a binary tree node.
+// struct TreeNode
+// {
+//     int val;
+//     TreeNode *left;
+//     TreeNode *right;
+//     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+//     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+//     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+// };
+// #include "dummyHead.h"
 
-// Solution 1: DFS Recursion
 class Solution
 {
 public:
+    // Solution: DFS
     bool isSymmetric(TreeNode *root)
     {
-        if (!root)
-            return true;
-        return dfs(root->left, root->right);
+        return isSymmetric(root->left, root->right);
     }
 
-    bool dfs(TreeNode *l, TreeNode *r)
+private:
+    bool isSymmetric(TreeNode *r1, TreeNode *r2)
     {
-        if (!l && !r)
+        if(!r1 && !r2)
             return true;
-        if (!l || !r)
+        if(!r1 || !r2)
             return false;
-        if (!dfs(l->left, r->right))
+        if(r1->val != r2->val)
             return false;
-        if (l->val != r->val)
-            return false;
-        return dfs(l->right, r->left);
+        return isSymmetric(r1->left, r2->right) && isSymmetric(r1->right, r2->left);
     }
 };
 // @lc code=end
