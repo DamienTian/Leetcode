@@ -5,87 +5,83 @@
  */
 
 // @lc code=start
-//#include "dummyHead.h"
+
+// #include "dummyHead.h"
 
 class Solution
 {
 public:
-    // Solution 1: BFS
+    // Solution 1: BFS (REVIEW 1)
     //  ref: https://www.cnblogs.com/grandyang/p/6381458.html
     // bool hasPath(vector<vector<int>> &maze, vector<int> &start, vector<int> &destination)
     // {
-    //     vector<vector<int>> visited = maze;
-    //     // Mark start pos as visited
+    //     int m = maze.size(), n = maze[0].size();
+    //     if (m == 0 || n == 0 || maze[start[0]][start[1]] == 1)
+    //         return false;
+    //     vector<vector<int>> visited(m, vector<int>(n, 0));
+    //     queue<vector<int>> q{{start}};
     //     visited[start[0]][start[1]] = 1;
-    //     int m = maze.size();
-    //     int n = maze[0].size();
-    //     queue<int> q{{start[0] * n + start[1]}};
     //     while (!q.empty())
     //     {
-    //         int pos = q.front();
+    //         vector<int> pos = q.front();
     //         q.pop();
-    //         int posX = pos / n, posY = pos % n;
-
-    //         // if reach the des, return true;
-    //         if (posX == destination[0] && posY == destination[1])
-    //             return true;
-
-    //         // Check if the ball can move from the pos to anywhere
-    //         // if (!moveable(posX, posY, m, n, visited))
-    //         //     continue;
-
-    //         for (auto d : directions)
+    //         if (pos[0] == destination[0] && pos[1] == destination[1])
+    //                 return true;
+    //         for (const auto &d : directions)
     //         {
-    //             int moveX = posX, moveY = posY;
-    //             while (moveX + d.first >= 0 && moveX + d.first < m &&
-    //                    moveY + d.second >= 0 && moveY + d.second < n &&
-    //                    maze[moveX + d.first][moveY + d.second] == 0)
+    //             int x = pos[0], y = pos[1];
+    //             while (x >= 0 && x < m && y >= 0 && y < n && maze[x][y] == 0)
     //             {
-    //                 moveX += d.first;
-    //                 moveY += d.second;
+    //                 x += d.first;
+    //                 y += d.second;
     //             }
-    //             if(!visited[moveX][moveY]){
-    //                 visited[moveX][moveY] = 1;
-    //                 q.push(moveX * n + moveY);
+    //             x -= d.first;
+    //             y -= d.second;
+    //             if(visited[x][y] == 0){
+    //                 visited[x][y] = 1;
+    //                 q.push({x, y});
     //             }
     //         }
-            
-
     //     }
     //     return false;
     // }
 
-    // Solution 2: DFS:
-    //  ref: https://www.cnblogs.com/grandyang/p/6381458.html
-    bool hasPath(vector<vector<int>> &maze, vector<int> &start, vector<int> &destination){
+    // Solution 2: DFS (REVIEW 1)
+    bool hasPath(vector<vector<int>> &maze, vector<int> &start, vector<int> &destination)
+    {
         return dfs(maze, start, destination);
     }
+
 private:
     vector<pair<int, int>> directions{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-    bool dfs(vector<vector<int>> &maze, vector<int> &current, vector<int> &destination){
-        if(current[0] == destination[0] && current[1] == destination[1])
+    // Solution 2: DFS + Memo
+    //  ref: https://www.cnblogs.com/grandyang/p/6381458.html
+    bool dfs(vector<vector<int>> &maze, vector<int> &current, vector<int> &destination)
+    {
+        if (current[0] == destination[0] && current[1] == destination[1])
             return true;
-        bool result = false;
         int m = maze.size(), n = maze[0].size();
+        bool result = false;
         maze[current[0]][current[1]] = -1;
-        for(auto d : directions){
-            int x = current[0];
-            int y = current[1];
-            while(x + d.first >= 0 && x + d.first < m && 
-                y + d.second >= 0 && y + d.second < n && 
-                maze[x + d.first][y + d.second] != 1){
-                    x += d.first;
-                    y += d.second;
+        for (const auto &d : directions)
+        {
+            int x = current[0], y = current[1];
+            while (x >= 0 && x < m && y >= 0 && y < n && maze[x][y] != 1)
+            {
+                x += d.first;
+                y += d.second;
             }
-            if(maze[x][y] != -1){
-                vector<int> next {x, y};
+            x -= d.first;
+            y -= d.second;
+            if (maze[x][y] != -1)
+            {
+                vector<int> next{x, y};
                 result |= dfs(maze, next, destination);
             }
         }
         return result;
     }
-
 };
 
 // @lc code=end

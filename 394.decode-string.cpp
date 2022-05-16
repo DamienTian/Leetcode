@@ -5,44 +5,43 @@
  */
 
 // @lc code=start
-class Solution
-{
+
+// #include "dummyHead.h"
+
+class Solution {
 public:
-    // Solution 1: DFS (Recursion)
+    // Solution 1: dfs (recursion)
     //  ref: https://www.cnblogs.com/grandyang/p/5849037.html
-    string decodeString(string s)
-    {
+    string decodeString(string s) {
         int index = 0;
-        return decode(s, index);
+        return dfs(s, index);
     }
 
 private:
-    string decode(const string &s, int &i)
-    {
+    string dfs(const string& s, int& index){
         string result = "";
-        while (i < s.size() && s[i] != ']')
-        {
-            if (s[i] < '0' || s[i] > '9')
-            {
-                result += s[i++];
-            }
-            else
-            {
+        int n = s.size();
+        while(index < n && s[index] != ']'){
+            // append chars
+            if(s[index] < '0' || s[index] > '9')
+                result += s[index++];
+            else{
+                // count for # of appears
                 int count = 0;
-                while (s[i] >= '0' && s[i] <= '9')
-                {
-                    count = count * 10 + s[i++] - '0';
+                // loop all numbers
+                while(s[index] >= '0' && s[index] <= '9'){
+                    count = count * 10 + s[index++] - '0';
                 }
-                ++i; // skip '['
-                string t = decode(s, i);
-                ++i; // skip ']'
-                while (count-- > 0)
-                {
+                ++index; // skip '['
+                // search string inside the []
+                string t = dfs(s, index);
+                ++index; // skip ']'
+                while(count-- > 0)
                     result += t;
-                }
             }
         }
         return result;
     }
 };
 // @lc code=end
+

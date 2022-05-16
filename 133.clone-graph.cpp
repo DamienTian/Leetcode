@@ -5,8 +5,7 @@
  */
 
 // @lc code=start
-// #include "dummyHead.h"
-// // Definition for a Node.
+// Definition for a Node.
 // class Node {
 // public:
 //     int val;
@@ -24,51 +23,35 @@
 //         neighbors = _neighbors;
 //     }
 // };
+// #include "dummyHead.h"
 
-
-// ref: https://zxi.mytechroad.com/blog/graph/leetcode-133-clone-graph/
-//  key: use queue to do search, use map to store the relationship between origin and cloned
-//  time: O(# of nodes + # of edges)
-//  explain: searched all nodes and edge, since the solution use hashtable to store all searched nodes, no need to search the nodes than has been searched before
 class Solution {
 public:
+    // Solution: BFS
     Node* cloneGraph(Node* node) {
-        if(!node){
+        if(!node)
             return nullptr;
-        } 
-        // Stores the relationship between original graph and cloned graph
-        unordered_map<Node*, Node*> relationship;
-        // Nodes have been searched
-        set<Node*> searched;
-        // Node* to search next (BFS)
-        queue<Node*> nextSearch;
-        nextSearch.push(node);
+        Node* result = new Node(node->val);
+        unordered_map<Node*, Node*> records{{node, result}};
+        unordered_set<Node*> visited{node};
+        queue<Node*> q {{node}};
+        while(!q.empty()){
+            Node *t = q.front();
+            q.pop();
 
-        while(!nextSearch.empty()){
-            Node* current = nextSearch.front();
-            nextSearch.pop();
-
-            if(searched.count(current)){
-                continue;
-            }
-            // Clone the node OR reconstruct exist cloned node
-            if(!relationship.count(current)){
-                relationship[current] = new Node(current->val);
-            }
-
-            // Adding adjancent nodes
-            for(auto n : current->neighbors){
-                if(!relationship.count(n)){
-                    relationship[n] = new Node(n->val);
+            for(Node* n : t->neighbors){
+                if(!records.count(n)){
+                    // Node newNode(n->val);
+                    records[n] = new Node(n->val);
                 }
-                relationship[current]->neighbors.push_back(relationship[n]);
-                nextSearch.push(n);
+                records[t]->neighbors.push_back(records[n]);
+                if(!visited.count(n)){
+                    visited.insert(n);
+                    q.push(n);
+                }
             }
-
-            searched.insert(current);
         }
-
-        return relationship[node];
+        return result;
     }
 };
 // @lc code=end
