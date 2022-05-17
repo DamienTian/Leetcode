@@ -23,7 +23,6 @@ int main()
     // cout << r <<endl;
 
     enum rr {j,i};
-    rr ii = 1;
 
     return 0;
 }
