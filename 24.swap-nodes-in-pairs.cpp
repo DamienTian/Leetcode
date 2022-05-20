@@ -14,44 +14,26 @@
 //     ListNode(int x) : val(x), next(nullptr) {}
 //     ListNode(int x, ListNode *next) : val(x), next(next) {}
 // };
-
 // #include "dummyHead.h"
 
 class Solution
 {
 public:
-    // Solution 1: Iterative
-    // ListNode *swapPairs(ListNode *head)
-    // {
-    //     if (head == nullptr || head->next == nullptr)
-    //         return head;
-
-    //     // Use a dummy node to return result
-    //     ListNode *root = new ListNode(-1);
-    //     ListNode* result = root;
-
-    //     while (head && head->next)
-    //     {
-    //         ListNode *oldNext = head->next;
-    //         head->next = oldNext->next;
-    //         oldNext->next = head;
-    //         root->next = oldNext;
-    //         head = head->next;
-    //         root = root->next->next;
-    //     }
-    //     return result->next;
-    // }
-
-    // Solution 2: Recursive
-    //  ref: https://www.cnblogs.com/grandyang/p/4441680.html
     ListNode *swapPairs(ListNode *head)
     {
-        if(!head || !head->next)
-            return head;
-        ListNode* temp = head->next;
-        head->next = swapPairs(head->next->next);
-        temp->next = head;
-        return temp;
+        ListNode dummy(-1);
+        dummy.next = head;
+        ListNode *node = dummy.next;
+        while (node && node->next)
+        {
+            ListNode *newHead = node->next;
+            ListNode *newTail = node;
+            ListNode *temp = newHead->next;
+            newHead->next = newTail;
+            newTail->next = temp;
+            node = newTail->next;
+        }
+        return dummy.next;
     }
 };
 // @lc code=end
