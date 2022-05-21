@@ -16,32 +16,23 @@
 // };
 // #include "dummyHead.h"
 
-// ref: https://www.cnblogs.com/grandyang/p/4478820.html
 class Solution
 {
 public:
-    // Solution 1: Recursive
     ListNode *reverseList(ListNode *head)
     {
-        if (!head || !head->next)
+        if(!head)
             return head;
-        ListNode *temp = reverseList(head->next);
-        head->next->next = head;
-        head->next = nullptr;
-        return temp;
+        ListNode dummy(-1);
+        dummy.next = head;
+        ListNode *pre = &dummy, *oldHead = pre->next;
+        while(oldHead->next){
+            ListNode* t = oldHead->next;
+            oldHead->next = t->next;
+            t->next = pre->next;
+            pre->next = t;
+        }
+        return dummy.next;
     }
-
-    // Solution 2: Iterative
-    // ListNode *reverseList(ListNode *head)
-    // {
-    //     ListNode* newHead = nullptr;
-    //     while(head){
-    //         ListNode* temp = head->next;
-    //         head->next = newHead;
-    //         newHead = head;
-    //         head = temp;
-    //     }
-    //     return newHead;
-    // }
 };
 // @lc code=end

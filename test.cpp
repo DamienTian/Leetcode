@@ -9,7 +9,6 @@ int main()
    
     char code = 'a';
 
-    int* i = new int;
 
     // Solution* ss = new Solution[10];
 
@@ -22,7 +21,9 @@ int main()
     // r = *(arr + 2);
     // cout << r <<endl;
 
-    enum rr {j,i};
+    for(int i = 1, j = 1; i < 2, j <= 4; ++i, ++j){
+        cout << "i = " << i << "    j = " << j << endl; 
+    }
 
     return 0;
 }

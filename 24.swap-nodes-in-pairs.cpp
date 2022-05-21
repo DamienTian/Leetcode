@@ -19,21 +19,34 @@
 class Solution
 {
 public:
+    // Solution 1: iteration
+    //  ref: https://www.cnblogs.com/grandyang/p/4441680.html
+    // ListNode *swapPairs(ListNode *head)
+    // {
+    //     ListNode dummy(-1);
+    //     dummy.next = head;
+    //     ListNode *node = &dummy;
+    //     while (node->next && node->next->next)
+    //     {
+    //         ListNode *t = node->next->next;
+    //         node->next->next = t->next;
+    //         t->next = node->next;
+    //         node->next = t;
+    //         node = t->next;
+    //     }
+    //     return dummy.next;
+    // }
+
+    // Solution 2: Backtrace recursion
+    //  ref: https://www.cnblogs.com/grandyang/p/4441680.html
     ListNode *swapPairs(ListNode *head)
     {
-        ListNode dummy(-1);
-        dummy.next = head;
-        ListNode *node = dummy.next;
-        while (node && node->next)
-        {
-            ListNode *newHead = node->next;
-            ListNode *newTail = node;
-            ListNode *temp = newHead->next;
-            newHead->next = newTail;
-            newTail->next = temp;
-            node = newTail->next;
-        }
-        return dummy.next;
+        if(!head || !head->next)
+            return head;
+        ListNode* t = head->next;
+        head->next = swapPairs(head->next->next);
+        t->next = head;
+        return t;
     }
 };
 // @lc code=end

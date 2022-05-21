@@ -17,16 +17,16 @@
 class Solution
 {
 public:
-    // Solution: Two Pointers (one slow one fast)
+    // Solution 1: slow fast pointer
     //  ref: https://www.cnblogs.com/grandyang/p/4137187.html
     bool hasCycle(ListNode *head)
     {
-        ListNode *slow = head, *fast = head;
-        while (fast && fast->next)
-        {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast && fast->next){
             slow = slow->next;
             fast = fast->next->next;
-            if (slow == fast)
+            if(slow == fast)
                 return true;
         }
         return false;

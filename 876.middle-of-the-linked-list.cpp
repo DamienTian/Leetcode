@@ -19,22 +19,34 @@
 class Solution
 {
 public:
-    // Solution: Two ptrs
-    ListNode *middleNode(ListNode *head)
-    {
-        if(!head || !head->next)
-            return head;
-        int length = 2;
-        ListNode *slow = head;
-        ListNode *fast = head->next;
-        while(fast && fast->next){
-            slow = slow->next;
-            fast = fast->next->next;
-            length += 2;
+    // Solution 1: calculate length
+    // ListNode *middleNode(ListNode *head)
+    // {
+    //     int len = getLen(head);
+    //     int target = len / 2;
+    //     for(int i = 0; i < target; ++i)
+    //         head = head->next;
+    //     return head; 
+    // }
+
+    // Solution 2: fast and slow ptrs
+    ListNode* middleNode(ListNode* head) {
+		ListNode *slow = head, *fast = head;
+		while (fast && fast->next) {
+			slow = slow->next;
+			fast = fast->next->next;
+		}
+		return slow;
+    }
+
+private:
+    int getLen(ListNode *head){
+        int len = 0;
+        while(head){
+            ++len;
+            head = head->next;
         }
-        if(!fast)
-            --length;
-        return (length % 2 == 0) ? slow->next : slow;
+        return len;
     }
 };
 // @lc code=end
