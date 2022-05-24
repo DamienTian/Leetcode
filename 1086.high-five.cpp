@@ -25,7 +25,6 @@ public:
             }
             result.push_back({record.first, total / 5});
         }
-
         return result;
     }
 };

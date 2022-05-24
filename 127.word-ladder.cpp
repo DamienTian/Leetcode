@@ -79,32 +79,69 @@ public:
 
     // Solution 1: BFS
     //  ref: https://www.cnblogs.com/grandyang/p/4539768.html
-    //  note: huahua provides a method calls "Bidirectional BFS", check http://zxi.mytechroad.com/blog/searching/127-word-ladder/
+    // int ladderLength(string beginWord, string endWord, vector<string> &wordList)
+    // {
+    //     unordered_set<string> wordSet(wordList.begin(), wordList.end());
+    //     if(!wordSet.count(endWord))
+    //         return 0;
+    //     // record path cost
+    //     unordered_map<string, int> pathCost{{beginWord, 1}};
+    //     queue<string> q{{beginWord}};
+    //     while(!q.empty()){
+    //         string word = q.front();
+    //         q.pop();
+    //         for(int i = 0; i < word.size(); ++i){
+    //             string newWord = word;
+    //             for(char c = 'a'; c <= 'z'; ++c){
+    //                 newWord[i] = c;
+    //                 if(wordSet.count(newWord)){
+    //                     if(newWord == endWord)
+    //                         return pathCost[word] + 1;
+    //                     if(!pathCost.count(newWord)){
+    //                         pathCost[newWord] = pathCost[word] + 1;
+    //                         q.push(newWord);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return 0;
+    // }
+
+    // Solution 2: BFS Bidirectional
+    //  ref: http://zxi.mytechroad.com/blog/searching/127-word-ladder/
     int ladderLength(string beginWord, string endWord, vector<string> &wordList)
     {
         unordered_set<string> wordSet(wordList.begin(), wordList.end());
         if(!wordSet.count(endWord))
             return 0;
-        // record path cost
-        unordered_map<string, int> pathCost{{beginWord, 1}};
-        queue<string> q{{beginWord}};
-        while(!q.empty()){
-            string word = q.front();
-            q.pop();
-            for(int i = 0; i < word.size(); ++i){
-                string newWord = word;
-                for(char c = 'a'; c <= 'z'; ++c){
-                    newWord[i] = c;
-                    if(wordSet.count(newWord)){
-                        if(newWord == endWord)
-                            return pathCost[word] + 1;
-                        if(!pathCost.count(newWord)){
-                            pathCost[newWord] = pathCost[word] + 1;
-                            q.push(newWord);
-                        }
+        int wordLen = beginWord.length();
+        // use hashset as queue
+        unordered_set<string> q1{beginWord};
+        unordered_set<string> q2{endWord};
+        int result = 0;
+        while(!q1.empty() && !q2.empty()){
+            ++result;
+            // search a smaller set
+            if(q1.size() > q2.size())
+                std::swap(q1, q2);
+            unordered_set<string> q;
+            for(string word : q1){
+                for(int i = 0; i < wordLen; ++i){
+                    char c = word[i];
+                    for(char j = 'a'; j <= 'z'; ++j){
+                        word[i] = j;
+                        if(q2.count(word))
+                            return result + 1;
+                        if(!wordSet.count(word))
+                            continue;
+                        wordSet.erase(word);
+                        q.insert(word);
                     }
+                    word[i] = c;
                 }
             }
+            std::swap(q, q1);
         }
         return 0;
     }

@@ -10,42 +10,44 @@
 class Solution {
 public:
     // Solution 1: DFS
-    // void solve(vector<vector<char>>& board) {
-    //     int m = board.size();
-    //     int n = board[0].size();
-    //     // change all 'o' that is connect to the edge to 'A',
-    //     // those 'o's are not surrounded
-    //     for(int i = 0; i < m; ++i){
-    //         for(int j = 0; j < n; ++j){
-    //             if(i == 0 || i == m-1 || j == 0 || j == n-1)
-    //                 dfs(board, i, j);
-    //         }
-    //     }
-        
-    //     for(int i = 0; i < m; ++i){
-    //         for(int j = 0; j < n; ++j){
-    //             if(board[i][j] == 'A')
-    //                 board[i][j] = 'O';
-                
-                    
-    //             else if(board[i][j] == 'O')
-    //                 board[i][j] = 'X';
-    //         }
-    //     }
-    // }
+    void solve(vector<vector<char>>& board){
+        // solveDFS(board);
+        solveBFS(board);
+    }
+
+    void solveDFS(vector<vector<char>>& board) {
+        int m = board.size();
+        int n = board[0].size();
+        // change all 'o' that is connect to the edge to 'A',
+        // those 'o's are not surrounded
+        for(int i = 0; i < m; ++i){
+            for(int j = 0; j < n; ++j){
+                if(i == 0 || i == m-1 || j == 0 || j == n-1)
+                    dfs(board, i, j);
+            }
+        }
+        for(int i = 0; i < m; ++i){
+            for(int j = 0; j < n; ++j){
+                if(board[i][j] == 'A')
+                    board[i][j] = 'O';     
+                else if(board[i][j] == 'O')
+                    board[i][j] = 'X';
+            }
+        }
+    }
 
     // Solution 2：BFS
-    void solve(vector<vector<char>>& board) {
+    void solveBFS(vector<vector<char>>& board) {
         int m = board.size();
         int n = board[0].size();
         stack<int> s;
+        // add all side into search queue
         for(int i = 0; i < m; ++i){
             for(int j = 0; j < n; ++j){
                 if((i == 0 || j == 0 || i == m - 1 || j == n - 1) && board[i][j] == 'O')
                     s.push(i * n + j);
             }
         }
-        
         while(!s.empty()){
             int index = s.top();
             s.pop();
@@ -59,7 +61,6 @@ public:
                 }
             }
         }
-        
         for(int i = 0; i < m; ++i){
             for(int j = 0; j < n; ++j){
                 if(board[i][j] == 'A')
