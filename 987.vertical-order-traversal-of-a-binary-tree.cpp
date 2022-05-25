@@ -46,8 +46,8 @@ private:
     {
         if (!root)
             return;
-        mem[rowIndex][colIndex].push_back(root->val);
-        dfs(root->left, rowIndex - 1, colIndex + 1);
+        mem[colIndex][rowIndex].push_back(root->val);
+        dfs(root->left, rowIndex + 1, colIndex - 1);
         dfs(root->right, rowIndex + 1, colIndex + 1);
     }
 };
