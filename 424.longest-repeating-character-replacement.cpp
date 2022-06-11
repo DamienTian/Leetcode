@@ -10,9 +10,20 @@
 
 class Solution {
 public:
+    int characterReplacement(string s, int k) {
+        return slidingWindow(s, k);
+    }
+
+private:
     // Solution: sliding window 
     //  ref: https://www.cnblogs.com/grandyang/p/5999050.html
-    int characterReplacement(string s, int k) {
+    //  note:
+    /*
+        try following testcase to see print:
+            "AABABBA"
+            1
+    */
+    int slidingWindow(string s, int k){
         // sliding window start index (left index)
         int start = 0;
         // maxcount count for current max amount of a char appears
@@ -22,6 +33,7 @@ public:
             maxCount = max(maxCount, ++counts[s[i]]);
             // if current substring doesn't satisfy: substring has same char len < s.size() - k;
             while(i - start + 1 - maxCount > k){
+                cout << "at " << i << ", sliding window from " << start << " index, char " << s[start] << ", current maxCount = " << maxCount << endl;
                 // slide window to right
                 --counts[s[start++]];
             }

@@ -23,11 +23,13 @@
 #include <ostream>
 #include <istream>
 #include <sstream>      // std::ostringstream
+#include <regex>
 
 // C
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <ctype.h>      /* tolower */
+#include <stdio.h>
 
 using namespace std;
 

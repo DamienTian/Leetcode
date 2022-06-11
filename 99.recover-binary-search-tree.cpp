@@ -15,36 +15,37 @@
 //     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 //     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 // };
-
 class Solution
 {
 public:
-    // Solution 1: In Order traversal
-    //  ref: https://zxi.mytechroad.com/blog/tree/leetcode-99-recover-binary-search-tree/
+    // Solution 1: in order traversal
+    //  ref: https://www.cnblogs.com/grandyang/p/4298069.html
     void recoverTree(TreeNode *root)
     {
-        inorder(root);
+        inOrder(root);
         swap(first->val, second->val);
     }
 
-    void inorder(TreeNode *root)
-    {
-        if (!root)
-            return;
-        inorder(root->left);
-        if (prev && prev->val > root->val)
-        {
-            if (!first)
-                first = prev;
-            second = root;
-        }
-        prev = root;
-        inorder(root->right);
-    }
-
 private:
-    TreeNode *first;
-    TreeNode *second;
-    TreeNode *prev;
+    TreeNode* prev = nullptr;
+    TreeNode* first = nullptr;
+    TreeNode* second = nullptr;
+    void inOrder(TreeNode *root){
+        if(!root)
+            return;
+        inOrder(root->left);
+        if(!prev)
+            prev = root;
+        else{
+            if(prev && prev->val > root->val){
+                // TODO: figure out why need to have if statement
+                if(!first)
+                    first = prev;
+                second = root;
+            }
+            prev = root;
+        }
+        inOrder(root->right);
+    }
 };
 // @lc code=end
