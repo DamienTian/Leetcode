@@ -38,13 +38,26 @@ private:
                 if(helper(pattern, str, pi + 1, i + 1))
                     return true;
             }
+            // if m does not has current search pattern ... 
             else if(!m.count(p)){
+                // if the substring has been found, continue the for loop (i++)
+                //  note:
+                /*  
+                    think aoubt str = "redrediredredi" pattern = "abab"
+                    a could be "red", b could be "redi"
+                    since "red" has matched with 'a', when search to "redi", 
+                    the first 3 letters "red" will be skip and "redi" will be matched
+                */
                 if(s.count(t))
                     continue;
+
+                // add new match into hash table and set
                 m[p] = t;
                 s.insert(t);
                 if(helper(pattern, str, pi + 1, i + 1))
                     return true;
+
+                // if the search with this substring does not match pattern, pop the substring out
                 m.erase(p);
                 s.erase(t);
             }

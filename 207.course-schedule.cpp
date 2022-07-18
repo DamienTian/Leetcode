@@ -8,75 +8,87 @@
 
 // #include "dummyHead.h"
 
-class Solution
-{
+class Solution {
 public:
-    // Solution 1: BFS
-    //  ref: https://www.cnblogs.com/grandyang/p/4484571.html
-    //  note: check ref for term "indegree"
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-       unordered_map<int, unordered_set<int>> graph;
-       // indegree of vertex indicates the # of edge point to the vertex
-       vector<int> inDegree(numCourses, 0);
-        for(auto pre: prerequisites){
-           graph[pre[1]].insert(pre[0]);
-           inDegree[pre[0]]++;
+        // return dfs(numCourses, prerequisites);
+        return bfs(numCourses, prerequisites);
+    }
+private:
+    // Solution 1: DFS (topological sorting)
+    //  ref: https://www.cnblogs.com/grandyang/p/4484571.html
+    bool dfs(int numCourses, vector<vector<int>>& prerequisites){
+        // build a graph
+        vector<vector<int>> graph(numCourses, vector<int>());
+        for(const auto& p : prerequisites){
+            graph[p[1]].push_back(p[0]);
         }
-        // bfs all the node that indegree is 0 (no prerequest)
+        
+        // visited has three status:
+        //  0: has not been visited yet
+        //  1: has been visited
+        //  -1: is visiting
+        vector<int> visited(numCourses, 0);
+  
+        // search every course to find circle (see topological sorting)
+        for(int i = 0; i < numCourses; ++i){
+            if(!dfs(i, graph, visited))
+                return false;
+        }
+        return true;
+    }
+
+    bool dfs(int current, const vector<vector<int>>& graph, vector<int>& visited){
+        if(visited[current] == -1)
+            return false;
+        if(visited[current] == 1)
+            return true;
+        visited[current] = -1;  // mark as "visiting"
+        for(const int& course : graph[current]){
+            if(!dfs(course, graph, visited))
+                return false;
+        }
+        visited[current] = 1;   // makr as "visited"
+        return true;
+    }
+
+    // Solution 2: BFS
+    //  ref: https://www.cnblogs.com/grandyang/p/4484571.html (code)
+    //  ref: https://baike.baidu.com/item/%E5%85%A5%E5%BA%A6/6172141 (indegree)
+    bool bfs(int numCourses, vector<vector<int>>& prerequisites){
+        // build graph and store indegree of each vertices
+        vector<vector<int>> graph(numCourses, vector<int>());
+        vector<int> indegrees(numCourses, 0);
+        for(const auto& p : prerequisites){
+            graph[p[1]].push_back(p[0]);
+            ++indegrees[p[0]];
+        }
+
+        // queue for bfs
         queue<int> q;
         for(int i = 0; i < numCourses; ++i){
-            if(inDegree[i] == 0)
+            if(indegrees[i] == 0)
                 q.push(i);
         }
+
+        // do bfs
         while(!q.empty()){
-            int c = q.front();
+            int curr = q.front();
             q.pop();
-            for(int cc : graph[c]){
-                --inDegree[cc];
-                if(inDegree[cc] == 0)
-                    q.push(cc);
+            for(const int& course : graph[curr]){
+                --indegrees[course];
+                if(indegrees[course] == 0)
+                    q.push(course);
             }
         }
-        // check loop
-        for(int i : inDegree){
-            if(i != 0)
-                return false;
-        }
-        return true;
-    }
 
-    // Solution 2: DFS
-    //  ref1: https://www.cnblogs.com/grandyang/p/4484571.html (code)
-    //  ref2: http://zxi.mytechroad.com/blog/graph/leetcode-207-course-schedule/ (talks about topological sorting)
-    bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
-    {
-        unordered_map<int, unordered_set<int>> graph;
-        for (auto pre : prerequisites)
-            graph[pre[1]].insert(pre[0]);
-        // status: 0 = not visit, 1 = visiting, 2 = visited
-        vector<int> status(numCourses, 0);
-        for(int i = 0; i < numCourses; ++i){
-            if(!dfs(graph, status, i))
+        // check if all indegree is 0
+        for(int i = 0; i < numCourses; ++i) {
+            if(indegrees[i] != 0)
                 return false;
         }
-        return true;
-    }
-
-private:
-    bool dfs(unordered_map<int, unordered_set<int>>& graph, vector<int>& status, int currentCourse){
-        if(status[currentCourse] == 2)
-            return true;
-        if(status[currentCourse] == 1)  // found cycle;
-            return false;
-        // change the current searching course status to "visiting"
-        status[currentCourse] = 1;
-        for(int course : graph[currentCourse]){
-            if(!dfs(graph, status, course))
-                return false;
-        }
-        // if no cycle, change the status of current searching course to "visited"
-        status[currentCourse] = 2;
         return true;
     }
 };
 // @lc code=end
+

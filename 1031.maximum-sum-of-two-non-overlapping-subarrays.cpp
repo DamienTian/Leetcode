@@ -8,28 +8,35 @@
 
 // #include "dummyHead.h"
 
-class Solution
-{
+class Solution {
 public:
-    // Solution: DP
-    //  ref: https://www.youtube.com/watch?v=XTGEbhZmqCY
-    int maxSumTwoNoOverlap(vector<int> &nums, int firstLen, int secondLen)
-    {
-        if(nums.size() < firstLen + secondLen)
-            return 0;
+    int maxSumTwoNoOverlap(vector<int>& nums, int firstLen, int secondLen) {
+        return dp(nums, firstLen, secondLen);
+    }
+
+private:
+    // Solution: dp
+    //  ref: https://www.cnblogs.com/grandyang/p/14403710.html
+    int dp(vector<int>& nums, int firstLen, int secondLen){
         for(int i = 1; i < nums.size(); ++i)
             nums[i] += nums[i - 1];
-
+        // init result as first (firstLen + secondLen) subarrays sum
         int result = nums[firstLen + secondLen - 1];
+        // init first and second 
         int firstMax = nums[firstLen - 1];
         int secondMax = nums[secondLen - 1];
         for(int i = firstLen + secondLen; i < nums.size(); ++i){
+            // find each max
             firstMax = max(firstMax, nums[i - secondLen] - nums[i - firstLen - secondLen]);
             secondMax = max(secondMax, nums[i - firstLen] - nums[i - firstLen - secondLen]);
-            result = max(result, max(firstMax + nums[i] - nums[i - secondLen], 
-                                    secondMax + nums[i] - nums[i - firstLen]));
+            // find max result
+            //  note: take a look at index to see how it deals with overlap cases
+            result = max(result, 
+                    max(firstMax + nums[i] - nums[i - secondLen], 
+                        secondMax + nums[i] - nums[i - firstLen]));
         }
         return result;
     }
 };
 // @lc code=end
+
