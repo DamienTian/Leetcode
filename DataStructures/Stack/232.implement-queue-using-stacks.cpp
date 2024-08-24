@@ -9,43 +9,46 @@
 
 // Solution: two stacks
 //  ref: https://www.cnblogs.com/grandyang/p/4626238.html
+
+// most recent practice
+//  Time complexity: amortized O(1)
 class MyQueue {
 public:
     MyQueue() {}
     
     void push(int x) {
-        _new.push(x);
+        s1.push(x);
     }
     
     int pop() {
-        shiftStack();
-        int val = _old.top();
-        _old.pop();
+        shiftElements();
+        int val = s2.top();
+        s2.pop();
         return val;
     }
     
     int peek() {
-        shiftStack();
-        return _old.top();
+        shiftElements();
+        return s2.top();
     }
     
     bool empty() {
-        return _new.empty() && _old.empty();
+        return s1.empty() && s2.empty();
     }
 
-    void shiftStack(){
-        if(!_old.empty())
+    void shiftElements() {
+        // s2 in FIFO order, and if not empty, means still have elements, return
+        if(!s2.empty())
             return;
-        while(!_new.empty()){
-            _old.push(_new.top());
-            _new.pop();
+        while(!s1.empty()){
+            s2.push(s1.top());
+            s1.pop();
         }
     }
-
 private:
-    // _new stores all new push in reversed order, when pop() or peek() was called,
-    // move all elements into _old in the correct order.
-    stack<int> _new, _old;
+    // s1: take new elements
+    // s2: use to get the top element
+    stack<int> s1, s2;    
 };
 
 /**
