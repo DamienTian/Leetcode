@@ -5,11 +5,46 @@
  */
 
 // @lc code=start
-//#include "dummyHead.h"
+//#include "../dummyHead.h"
+
+// The most recent practice
+class MyStack {
+public:
+    MyStack() {}
+    
+    void push(int x) {
+        q.push(x);
+    }
+    
+    int pop() {
+        int n = q.size() - 1;
+        while(n > 0){
+            int x = q.front();
+            q.pop();
+            q.push(x);
+            n--;
+        }
+        int res = q.front();
+        q.pop();
+        return res;
+    }
+    
+    int top() {
+        return q.back();
+    }
+    
+    bool empty() {
+        return q.empty();
+    }
+
+private:
+    queue<int> q;
+};
 
 // ref: https://www.cnblogs.com/grandyang/p/4568796.html
 // Solution 2: use only one queue, costy on push()
 //  note: solution 1 leave the top element in the second queue, and quite costy on top()
+/*
 class MyStack {
 public:
     MyStack() {}
@@ -40,6 +75,8 @@ public:
 private:
     queue<int> q;
 };
+*/
+
 
 /**
  * Your MyStack object will be instantiated and called as such:
