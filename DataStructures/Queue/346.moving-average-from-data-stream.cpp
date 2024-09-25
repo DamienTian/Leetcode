@@ -6,27 +6,28 @@
 
 // @lc code=start
 
+//#include "../dummyHead.h"
+
 class MovingAverage {
 public:
     MovingAverage(int size) {
-        this->size = size;
+        n = size;
     }
     
     double next(int val) {
-        total += val;
-        q.push(val);
-        while(q.size() > size){
+        if(q.size() >= n){
             int front = q.front();
             q.pop();
-            total -= front;
+            mNext -= front;
         }
-        return total / q.size();
+        q.push(val);
+        mNext += val;
+        return mNext / q.size();
     }
-
 private:
     queue<int> q;
-    int size;
-    double total = 0;
+    int n;
+    double mNext = 0;
 };
 
 // @lc code=end

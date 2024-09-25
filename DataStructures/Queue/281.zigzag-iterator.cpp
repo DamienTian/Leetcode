@@ -5,8 +5,37 @@
  */
 
 // @lc code=start
-//#include "dummyHead.h"
+//#include "../dummyHead.h"
 
+// Most recent practice
+class ZigzagIterator {
+public:
+    ZigzagIterator(vector<int>& v1, vector<int>& v2) {
+        int n1 = v1.size();
+        int n2 = v2.size();
+        // change how to fill the queue
+        //  ref: https://www.cnblogs.com/grandyang/p/5212785.html (Solution 2)
+        int n = max(n1, n2);
+        for(int i = 0; i < n; ++i){
+            if(i < n1) q.push(v1[i]);
+            if(i < n2) q.push(v2[i]);
+        }
+    }
+
+    int next() {
+        int n = q.front();
+        q.pop();
+        return n;
+    }
+
+    bool hasNext() {
+        return !q.empty();
+    }
+private:
+    queue<int> q;
+};
+
+/*
 // Solution 1: using queue to order element first (mine)
 //  note: this method could be costy when the elements are too many when construct the object
 // class ZigzagIterator {
@@ -67,6 +96,8 @@ public:
 private:
     queue<pair<vector<int>::iterator, vector<int>::iterator>> zigzag;
 };
+*/
+
 
 
 /**
