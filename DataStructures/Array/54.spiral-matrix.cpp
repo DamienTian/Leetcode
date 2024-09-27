@@ -5,8 +5,41 @@
  */
 
 // @lc code=start
-//#include "dummyHead.h"
+//#include "../dummyHead.h"
 
+// most recent practice
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int m = matrix.size();      // col size
+        int n = matrix[0].size();   // row size
+        int total = m * n;
+        int l = 0, r = n, t = 0, b = m; // bounds (left, right, top, botttom)
+        int x = 0, y = 0;
+        int dirX = 1, dirY = 0; // moving direction
+        vector<int> result;
+        while(total > 0){
+            result.push_back(matrix[y][x]);
+            total--;
+            x += dirX; y += dirY;
+            if(x >= r){ // moving right, hit the right bound, means the top was all went through
+                x--; y++; dirX = 0; dirY = 1; t++; 
+            }
+            else if(y >= b){ // moving down, hit the bottom bound, means the right was all went through
+                x--; y--; dirX = -1; dirY = 0; r--;
+            }
+            else if(x < l){ // moving left, hit the left bound, means the bottom was all went through
+                x++; y--; dirX = 0; dirY = -1; b--;
+            }
+            else if(y < t){ // moving up, hit the top bound, means the left was all went through
+                x++; y++; dirX = 1; dirY = 0; l++;
+            }
+        }
+        return result;
+    }
+};
+
+/*
 class Solution
 {
 public:
@@ -53,4 +86,6 @@ public:
         return result;
     }
 };
+
+*/
 // @lc code=end
