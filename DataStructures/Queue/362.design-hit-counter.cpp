@@ -5,7 +5,7 @@
  */
 
 // @lc code=start
-//#include "dummyHead.h"
+//#include "../dummyHead.h"
 
 // Solution 1: queue
 class HitCounter {
@@ -21,7 +21,6 @@ public:
             q.pop();
         return q.size();
     }
-
 private:
     queue<int> q;
 };
